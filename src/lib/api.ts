@@ -120,6 +120,7 @@ export type User = {
   role: "EMPLOYEE" | "MANAGER" | "ADMIN";
   department?: string;
   manager_id?: string;
+  manager_name?: string;
   is_active: boolean;
 };
 
