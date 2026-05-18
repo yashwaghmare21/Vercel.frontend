@@ -1,0 +1,7 @@
+[
+  { "user_id": "emp-001", "name": "Yash Waghmare", "role": "EMPLOYEE", "managerId": "mgr-001", "department": "Engineering" },
+  { "user_id": "emp-002", "name": "Jay Wakhre", "role": "EMPLOYEE", "managerId": "mgr-001", "department": "Engineering" },
+  { "user_id": "emp-003", "name": "Mihir Kulkarni", "role": "EMPLOYEE", "managerId": "mgr-002", "department": "Marketing" },
+  { "user_id": "emp-004", "name": "Tanishq Gupta", "role": "EMPLOYEE", "managerId": "mgr-001", "department": "Engineering" },
+  { "user_id": "emp-005", "name": "Soham Kulkarni", "role": "EMPLOYEE", "managerId": "mgr-002", "department": "Sales" }
+]

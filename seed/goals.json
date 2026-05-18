@@ -1,0 +1,67 @@
+[
+  {
+    "id": "g1", "employeeId": "emp-001", "managerId": "mgr-001",
+    "status": "locked", "checkinStatus": "on_track",
+    "thrustArea": "Financial", "title": "Increase Revenue by 20%",
+    "description": "Drive Q1 revenue growth through enterprise deals.",
+    "uom": "percentage", "evaluationType": "min", "target": 20, "actual": 15,
+    "weightage": 40
+  },
+  {
+    "id": "g2", "employeeId": "emp-001", "managerId": "mgr-001",
+    "status": "locked", "checkinStatus": "on_track",
+    "thrustArea": "Customer", "title": "Improve CSAT to 95",
+    "description": "Resolve top 10 customer complaints.",
+    "uom": "numeric", "evaluationType": "min", "target": 95, "actual": 88,
+    "weightage": 30
+  },
+  {
+    "id": "g3", "employeeId": "emp-001", "managerId": "mgr-001",
+    "status": "locked", "checkinStatus": "not_started",
+    "thrustArea": "Process", "title": "Reduce Onboarding Time",
+    "description": "Streamline new hire onboarding to under 2 weeks.",
+    "uom": "timeline", "target": "2025-06-30", "actual": null,
+    "weightage": 30
+  },
+  {
+    "id": "g4", "employeeId": "emp-002", "managerId": "mgr-001",
+    "status": "manager_review", "checkinStatus": "not_started",
+    "thrustArea": "Process", "title": "Launch Product Beta",
+    "description": "Ship beta to 100 users by end of Q1.",
+    "uom": "numeric", "evaluationType": "min", "target": 100, "actual": 0,
+    "weightage": 50
+  },
+  {
+    "id": "g5", "employeeId": "emp-002", "managerId": "mgr-001",
+    "status": "manager_review", "checkinStatus": "not_started",
+    "thrustArea": "Learning", "title": "Team Training Program",
+    "description": "Complete 20 hours of professional development.",
+    "uom": "numeric", "evaluationType": "min", "target": 20, "actual": 12,
+    "weightage": 50
+  },
+  {
+    "id": "g6", "employeeId": "emp-003", "managerId": "mgr-002",
+    "status": "locked", "checkinStatus": "completed",
+    "thrustArea": "Customer", "title": "Reduce Churn Rate to 5%",
+    "description": "Implement retention campaigns.",
+    "uom": "percentage", "evaluationType": "max", "target": 5, "actual": 3,
+    "weightage": 60
+  },
+  {
+    "id": "g7", "employeeId": "emp-003", "managerId": "mgr-002",
+    "status": "locked", "checkinStatus": "completed",
+    "thrustArea": "Learning", "title": "Hire 10 New Team Members",
+    "description": "Fill all open positions by Q1 end.",
+    "uom": "numeric", "evaluationType": "min", "target": 10, "actual": 10,
+    "weightage": 40
+  },
+  {
+    "id": "g8", "employeeId": "emp-004", "managerId": "mgr-001",
+    "status": "draft", "checkinStatus": "not_started",
+    "thrustArea": "Financial", "title": "Cut Infrastructure Costs",
+    "description": "Migrate to cheaper cloud provider.",
+    "uom": "percentage", "evaluationType": "max", "target": 15, "actual": 0,
+    "weightage": 100,
+    "sharedGoal": { "isPrimary": false, "primaryOwnerId": "emp-001", "linkedUsers": ["emp-001", "emp-004"] }
+  }
+]

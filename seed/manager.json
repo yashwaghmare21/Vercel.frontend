@@ -1,0 +1,4 @@
+[
+  { "user_id": "mgr-001", "name": "John Doe", "role": "MANAGER", "department": "Engineering", "directReports": ["emp-001", "emp-002", "emp-004"] },
+  { "user_id": "mgr-002", "name": "Jane Mgr", "role": "MANAGER", "department": "Marketing", "directReports": ["emp-003", "emp-005"] }
+]
