@@ -10,15 +10,17 @@ const uomEnum = z.enum(['numeric', 'percentage', 'timeline', 'zero']);
 const evalEnum = z.enum(['min', 'max']);
 
 // Base Goal Schema for individual goals
-const goalSchema = z.object({
+const goalBaseSchema = z.object({
   thrustArea: z.string().min(1, "Thrust Area is required"),
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().optional(),
   uom: uomEnum,
   evaluationType: evalEnum.optional(),
-  target: z.coerce.number().or(z.string()).or(z.date()),
+  target: z.any(),
   weightage: z.coerce.number().min(MIN_WEIGHTAGE_PER_GOAL, `Min weightage is ${MIN_WEIGHTAGE_PER_GOAL}%`),
-}).superRefine((data, ctx) => {
+});
+
+const goalSchema = goalBaseSchema.superRefine((data, ctx) => {
   if (data.uom === 'numeric' || data.uom === 'percentage') {
     if (!data.evaluationType) {
       ctx.addIssue({
@@ -37,7 +39,12 @@ const goalSchema = z.object({
   }
 });
 
-// Entire Sheet Schema
+// Entire Sheet Base Schema for clean type inference
+const goalSheetBaseSchema = z.object({
+  goals: z.array(goalBaseSchema).max(MAX_GOALS, `Maximum ${MAX_GOALS} goals allowed.`)
+});
+
+// Entire Sheet Schema with refinements
 const goalSheetSchema = z.object({
   goals: z.array(goalSchema).max(MAX_GOALS, `Maximum ${MAX_GOALS} goals allowed.`)
 }).superRefine((data, ctx) => {
@@ -51,13 +58,14 @@ const goalSheetSchema = z.object({
   }
 });
 
-type GoalSheetFormValues = z.infer<typeof goalSheetSchema>;
+type GoalSheetFormValues = z.infer<typeof goalSheetBaseSchema>;
+
 
 export default function GoalSheetForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register, control, handleSubmit, watch, formState: { errors } } = useForm<GoalSheetFormValues>({
-    resolver: zodResolver(goalSheetSchema),
+    resolver: zodResolver(goalSheetSchema) as any,
     defaultValues: {
       goals: [{ thrustArea: '', title: '', description: '', uom: 'numeric', evaluationType: 'min', target: 0, weightage: 10 }]
     },
@@ -182,8 +190,8 @@ export default function GoalSheetForm() {
                     {...register(`goals.${index}.target` as const)}
                     className="w-full h-10 px-3 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
                   />
-                  {errors.goals?.[index]?.target && (
-                    <p className="text-sm text-red-500">{errors.goals[index]?.target?.message}</p>
+                  {errors.goals?.[index]?.target?.message && (
+                    <p className="text-sm text-red-500">{String(errors.goals[index].target.message)}</p>
                   )}
                 </div>
 

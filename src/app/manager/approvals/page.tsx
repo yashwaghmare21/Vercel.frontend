@@ -356,7 +356,7 @@ export default function ManagerApprovalsPage() {
                         {goal.title}
                       </h4>
                       <p className="text-xs text-zinc-500 mt-0.5">
-                        Target: {goal.target}
+                        Target: {goal.target instanceof Date ? goal.target.toLocaleDateString() : String(goal.target)}
                         {goal.uom === "percentage" ? "%" : ""}
                       </p>
                     </div>
