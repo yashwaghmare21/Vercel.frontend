@@ -1,8 +1,26 @@
 "use client";
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function EmployeeDashboard() {
+  const [managerName, setManagerName] = useState<string>("");
+
+  useEffect(() => {
+    // Extract session from cookie
+    const cookies = document.cookie.split(';');
+    const sessionCookie = cookies.find(c => c.trim().startsWith('atomquest_session='));
+    if (sessionCookie) {
+      try {
+        const raw = sessionCookie.substring(sessionCookie.indexOf('=') + 1);
+        const session = JSON.parse(decodeURIComponent(raw));
+        if (session.manager_name) {
+          setManagerName(session.manager_name);
+        }
+      } catch (e) {}
+    }
+  }, []);
+
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <div>
@@ -10,10 +28,17 @@ export default function EmployeeDashboard() {
         <p className="text-zinc-500 dark:text-zinc-400 mt-2">Here is a quick overview of your goal progress.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div className="p-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
           <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Total Goals</h3>
           <p className="text-4xl font-bold text-zinc-900 dark:text-white mt-2">0</p>
+        </div>
+
+        <div className="p-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+          <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Reporting Manager</h3>
+          <p className="text-xl font-bold text-zinc-900 dark:text-white mt-2 truncate">
+            {managerName || "No Manager Assigned"}
+          </p>
         </div>
         
         <div className="p-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">

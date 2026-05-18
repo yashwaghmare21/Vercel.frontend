@@ -8,7 +8,7 @@ const DEMO_ACCOUNTS = [
   {
     role: "EMPLOYEE",
     label: "Employee",
-    email: "employee@atomquest.demo",
+    email: "employee1@gmail.com",
     password: "Demo@123",
     icon: "👤",
     color: "bg-sky-100 hover:bg-sky-200 text-sky-900 border border-sky-300 font-extrabold shadow-sm dark:bg-zinc-800 dark:border-zinc-700 dark:text-white",
@@ -16,7 +16,7 @@ const DEMO_ACCOUNTS = [
   {
     role: "MANAGER",
     label: "Manager",
-    email: "manager@atomquest.demo",
+    email: "manager1@gmail.com",
     password: "Demo@123",
     icon: "🎯",
     color: "bg-blue-100 hover:bg-blue-200 text-blue-900 border border-blue-300 font-extrabold shadow-sm dark:bg-indigo-900/30 dark:border-indigo-800 dark:text-indigo-300",
@@ -24,7 +24,7 @@ const DEMO_ACCOUNTS = [
   {
     role: "ADMIN",
     label: "Admin",
-    email: "admin@atomquest.demo",
+    email: "admin1@gmail.com",
     password: "Demo@123",
     icon: "⚙️",
     color: "bg-indigo-100 hover:bg-indigo-200 text-indigo-900 border border-indigo-300 font-extrabold shadow-sm dark:bg-violet-900/30 dark:border-violet-800 dark:text-violet-300",
@@ -91,6 +91,20 @@ export default function LoginPage() {
       const { access_token } = await api.auth.login(emailVal, passwordVal);
       const role = getRoleFromToken(access_token);
       if (!role) throw new Error("Could not determine user role from token.");
+      
+      // Fetch user profile and set atomquest_session cookie
+      const userProfile = await api.auth.me();
+      const sessionData = {
+        id: userProfile.id,
+        name: userProfile.name,
+        email: userProfile.email,
+        role: userProfile.role,
+        department: userProfile.department,
+        manager_id: userProfile.manager_id,
+        manager_name: userProfile.manager_name,
+      };
+      document.cookie = `atomquest_session=${encodeURIComponent(JSON.stringify(sessionData))}; path=/; max-age=28800; samesite=lax`;
+
       redirectByRole(role);
     } catch (err) {
       if (err instanceof ApiError) setSignInError(err.message);
@@ -128,6 +142,11 @@ export default function LoginPage() {
 
     if (!regName.trim() || !regEmail.trim() || !regPassword.trim()) {
       setRegError("Please fill out all required fields.");
+      return;
+    }
+
+    if (!regEmail.trim().endsWith("@gmail.com")) {
+      setRegError("Email address must be a valid @gmail.com address.");
       return;
     }
 
@@ -240,7 +259,7 @@ export default function LoginPage() {
                     id="login-email"
                     type="email"
                     autoComplete="email"
-                    placeholder="you@atomquest.demo"
+                    placeholder="you@gmail.com"
                     value={signInEmail}
                     onChange={(e) => setSignInEmail(e.target.value)}
                     disabled={signInLoading}
@@ -354,7 +373,7 @@ export default function LoginPage() {
                   <input
                     type="email"
                     required
-                    placeholder="name@atomquest.demo"
+                    placeholder="name@gmail.com"
                     value={regEmail}
                     onChange={(e) => setRegEmail(e.target.value)}
                     disabled={regLoading}
